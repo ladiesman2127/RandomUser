@@ -14,16 +14,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import jp.aqua.randomuser.ui.navigation.AppNavHost
 import jp.aqua.randomuser.ui.navigation.AppScreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun App() {
     val navController = rememberNavController()
+    val coroutineScope = rememberCoroutineScope()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = enumValues<AppScreen>().find {
         it.name == backStackEntry?.destination?.route
@@ -33,7 +37,12 @@ fun App() {
         topBar = {
             AppTopBar(
                 currentScreen = currentScreen,
-                navigateUp = { navController.navigateUp() }
+                navigateUp = {
+                    coroutineScope.launch {
+                        navController.navigateUp()
+                        delay(500)
+                    }
+                }
             )
         }
     ) { innerPadding ->

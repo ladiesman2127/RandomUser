@@ -65,7 +65,7 @@ fun HomeScreen(
     }
 
     LaunchedEffect(Unit) {
-        delay(500)
+        delay(1000)
         if (users.value.isEmpty()) {
             usersEmpty = true
         }

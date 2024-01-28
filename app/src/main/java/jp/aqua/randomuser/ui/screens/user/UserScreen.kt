@@ -50,7 +50,10 @@ fun UserScreen(
     val context = LocalContext.current
     val user = viewModel.getUser(userId).collectAsState(User())
     val userData = user.value.data
-    LazyColumn(modifier = modifier.padding(dimensionResource(R.dimen.small_padding))) {
+    LazyColumn(
+        modifier = modifier.padding(dimensionResource(R.dimen.small_padding)),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         if (userData != null) {
             item {
                 val address = userData.addressToString()
@@ -113,9 +116,17 @@ fun OpenableDescription(
         }
     }
     ClickableText(
-        modifier = Modifier.fillMaxWidth(),
         text = annotatedAddress,
-        onClick = { onClick() }
+        onClick = { offset ->
+            annotatedAddress.getStringAnnotations(
+                tag = "description_tag",
+                start = offset,
+                end = offset
+            ).firstOrNull().let {
+                if (it != null)
+                    onClick()
+            }
+        }
     )
 }
 
@@ -126,7 +137,6 @@ fun Description(
     Text(
         text = description.capitalize(),
         textAlign = TextAlign.Center,
-        modifier = Modifier.fillMaxWidth(),
         style = MaterialTheme.typography.labelLarge
     )
 }
