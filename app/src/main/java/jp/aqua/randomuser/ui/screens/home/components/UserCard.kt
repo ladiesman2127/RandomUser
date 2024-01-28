@@ -1,6 +1,5 @@
 package jp.aqua.randomuser.ui.screens.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +18,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -38,11 +38,10 @@ fun UserCard(
     modifier: Modifier = Modifier, user: User, onClick: () -> Unit
 ) {
     Card(
-        modifier = modifier.run {
-            fillMaxWidth()
-                .height(dimensionResource(R.dimen.card_height))
-                .clickable(onClick = onClick)
-        },
+        modifier = modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.card_height)),
+        onClick = onClick,
         shape = CardDefaults.outlinedShape,
         colors = CardDefaults.outlinedCardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
