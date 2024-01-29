@@ -17,36 +17,37 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import jp.aqua.randomuser.ui.navigation.AppNavHost
 import jp.aqua.randomuser.ui.navigation.AppScreen
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun App() {
-    val navController = rememberNavController()
-    val coroutineScope = rememberCoroutineScope()
+fun App(
+    navController: NavHostController = rememberNavController(),
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = enumValues<AppScreen>().find {
         it.name == backStackEntry?.destination?.route
     }
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             AppTopBar(
                 currentScreen = currentScreen,
-                navigateUp = {
-                    coroutineScope.launch {
-                        navController.navigateUp()
-                        delay(500)
-                    }
-                }
+                navigateUp = { navController.navigateUp() }
             )
         }
     ) { innerPadding ->
-        AppNavHost(Modifier.padding(innerPadding), navController)
+        AppNavHost(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            navController = navController
+        )
     }
 }
 

@@ -1,6 +1,11 @@
 package jp.aqua.randomuser.ui.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -37,7 +42,7 @@ fun AppNavHost(
     ) {
         composable(route = AppScreen.HomeScreen.name) {
             HomeScreen(
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxSize(),
                 viewModel = homeViewModel,
                 onNavigateToFullDescription = { bookId ->
                     navController.navigate(
@@ -52,7 +57,7 @@ fun AppNavHost(
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getInt("userId")
             UserScreen(
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxSize(),
                 viewModel = userViewModel,
                 userId = userId!!
             )
